@@ -6,6 +6,7 @@
     <RootNamespace>SampleNet5WpfAndWinforms</RootNamespace>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
   </PropertyGroup>
 
   <ItemGroup>
