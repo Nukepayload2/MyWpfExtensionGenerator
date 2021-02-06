@@ -40,6 +40,11 @@ Public Class MyWpfExtensionGenerator
         ' Get all classes and select WPF window classes.
         Dim compilation = context.Compilation
         Dim windowTypeSymbol = compilation.GetTypeByMetadataName("System.Windows.Window")
+        If windowTypeSymbol Is Nothing Then
+            ' WPF was not referenced
+            Return
+        End If
+
         Dim wpfWindows = GetWpfWindowClasses(receiver, compilation, windowTypeSymbol)
 
         ' Check if we can use Microsoft.VisualBasic.Forms
