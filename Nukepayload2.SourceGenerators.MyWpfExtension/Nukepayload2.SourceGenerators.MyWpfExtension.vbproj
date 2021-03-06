@@ -21,7 +21,10 @@ Generated members:
 - My.Computer (.NET 5+ Windows Forms required)
 - My.User (.NET 5+ Windows Forms required)
 - My.Log (.NET 5+ Windows Forms required)
-- My.Application.Info (.NET 5+ Windows Forms required)</Description>
+- My.Application.Info (.NET 5+ Windows Forms required)
+
+Can't use generated members?
+- Edit project file and add &lt;IncludePackageReferencesDuringMarkupCompilation&gt;true&lt;/IncludePackageReferencesDuringMarkupCompilation&gt; to &lt;PropertyGroup&gt; .</Description>
     <RepositoryUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>source generator,WPF,VB,My extension</PackageTags>

@@ -28,7 +28,7 @@ This project haven't been published to Nuget yet. So, you can only use it as pro
 - Add the source generator project to your solution.
 - Build the source generator project.
 - Select your WPF project, and add project reference to the source generator.
-- Edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` .
+- Edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` . Add `<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>` to `<PropertyGroup>` element.
 - Reload the solution.
 
 ## Known issues
