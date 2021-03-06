@@ -215,9 +215,9 @@ Public Class MyWpfExtensionGenerator
 
         code.Append("
         Friend NotInheritable Class MyWindows")
-
+        Dim usedWindowNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         For Each wnd In windowSymbols
-            Dim windowName = wnd.Name
+            Dim windowName = AllocateWindowName(wnd.Name, usedWindowNames)
             Dim windowNamespace = wnd.ContainingNamespace?.ToDisplayString
             Dim windowFullName = If(windowNamespace = Nothing,
                 windowName,
@@ -251,6 +251,25 @@ Public Class MyWpfExtensionGenerator
         code.Append("
         End Class")
     End Sub
+
+    Private Shared Function AllocateWindowName(
+        suggestedName As String,
+        usedName As HashSet(Of String)) As String
+
+        Dim name = suggestedName
+        If usedName.Contains(name) Then
+            Dim num = 1
+            Dim nextName As String
+            Do
+                num += 1
+                nextName = suggestedName & num
+            Loop While usedName.Contains(nextName)
+            name = nextName
+        End If
+
+        usedName.Add(name)
+        Return name
+    End Function
 
     Private Shared Sub AppendEndModuleMyWpfExtension(code As StringBuilder)
         code.Append("
