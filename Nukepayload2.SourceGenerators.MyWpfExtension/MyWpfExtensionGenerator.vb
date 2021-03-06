@@ -218,7 +218,7 @@ Public Class MyWpfExtensionGenerator
         Dim usedWindowNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         For Each wnd In windowSymbols
             Dim windowName = AllocateWindowName(wnd.Name, usedWindowNames)
-            Dim windowNamespace = wnd.ContainingNamespace?.ToDisplayString
+            Dim windowNamespace = GetAbsoluteNamespace(wnd.ContainingNamespace)
             Dim windowFullName = If(windowNamespace = Nothing,
                 windowName,
                 "Global." & windowNamespace & "." & windowName)
@@ -251,6 +251,13 @@ Public Class MyWpfExtensionGenerator
         code.Append("
         End Class")
     End Sub
+
+    Private Shared Function GetAbsoluteNamespace(ns As INamespaceSymbol) As String
+        If ns Is Nothing Then
+            Return "Global"
+        End If
+        Return "Global." & ns.ToDisplayString
+    End Function
 
     Private Shared Function AllocateWindowName(
         suggestedName As String,
