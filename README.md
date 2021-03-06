@@ -1,16 +1,18 @@
 # MyWpfExtensionGenerator
-`MyWpfExtension.vb` source generator for .NET Core 3.1 and .NET
+VB "WPF My extension" generator for .NET Core 3.1 and .NET 5 or later.
+Generates Visual Basic's My Namespace extension for Windows Presentation Foundation.
+The generator writes the WPF specific part of My extension by default. For generating all members, please upgrade to .NET 5 or later, and use Windows Forms (Edit project file, add `<UseWindowsForms>true</UseWindowsForms>` to `<PropertyGroup>`), then reload the project.
 
 ## Requirements
-Visual Studio 16.9 preview 3 or later
+Visual Studio 16.9 or later
 
 ## Features
 - Generate My.Application
 - Generate My.Windows
-- Generate My.Computer (.NET 5 Windows Forms required)
-- Generate My.User (.NET 5 Windows Forms required)
-- Generate My.Log (.NET 5 Windows Forms required)
-- Generate My.Application.Info (.NET 5 Windows Forms required)
+- Generate My.Computer (.NET 5+ Windows Forms required)
+- Generate My.User (.NET 5+ Windows Forms required)
+- Generate My.Log (.NET 5+ Windows Forms required)
+- Generate My.Application.Info (.NET 5+ Windows Forms required)
 
 ## Project structure
 ### Nukepayload2.SourceGenerators.MyWpfExtension
@@ -30,5 +32,4 @@ This project haven't been published to Nuget yet. So, you can only use it as pro
 - Reload the solution.
 
 ## Known issues
-- Generated code can't be used in early binding. This is probably a bug of Visual Studio.
 - WPF windows with the same name and different namespace is temporarily unsupported.

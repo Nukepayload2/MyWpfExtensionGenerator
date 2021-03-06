@@ -3,23 +3,37 @@
   <PropertyGroup>
     <RootNamespace>Nukepayload2.SourceGenerators.MyWpfExtension</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.0</Version>
     <Authors>Nukepayload2</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator</PackageProjectUrl>
-    <Description>"MyWpfExtension.vb" generator for .NET Core 3.1 and .NET</Description>
+    <Description>VB "WPF My extension" generator for .NET Core 3.1 and .NET 5 or later.
+Generates Visual Basic's My Namespace extension for Windows Presentation Foundation.
+The generator writes the WPF specific part of My extension by default. For generating all members, please upgrade to .NET 5 or later, and use Windows Forms (Edit project file, add &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt; to &lt;PropertyGroup&gt;), then reload the project.
+
+Requirements:
+- Visual Studio 16.9 or later
+- .NET SDK 5.0.200 (this is the first version that supports Visual Basic 16.9)
+
+Generated members:
+- My.Application
+- My.Windows
+- My.Computer (.NET 5+ Windows Forms required)
+- My.User (.NET 5+ Windows Forms required)
+- My.Log (.NET 5+ Windows Forms required)
+- My.Application.Info (.NET 5+ Windows Forms required)</Description>
     <RepositoryUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>source generator,WPF,VB,My extension</PackageTags>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
+    <Copyright>Copyright 2021 Nukepayload2</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="3.9.0-3.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="3.9.0" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/vb" Visible="false" />
+  </ItemGroup>
 </Project>
