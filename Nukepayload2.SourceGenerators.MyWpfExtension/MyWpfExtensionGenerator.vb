@@ -2,8 +2,6 @@ Option Explicit On
 Option Infer On
 Option Strict On
 
-Imports System.Globalization
-Imports System.IO
 Imports System.Text
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.Text
@@ -217,7 +215,7 @@ Public Class MyWpfExtensionGenerator
         Friend NotInheritable Class MyWindows")
         Dim usedWindowNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         For Each wnd In windowSymbols
-            Dim windowName = AllocateWindowName(wnd.Name, usedWindowNames)
+            Dim windowName = AllocateWindowName(wnd.Name, wnd.ContainingNamespace?.ToDisplayString, usedWindowNames)
             Dim windowNamespace = GetAbsoluteNamespace(wnd.ContainingNamespace)
             Dim windowFullName = If(windowNamespace = Nothing,
                 windowName,
@@ -261,15 +259,21 @@ Public Class MyWpfExtensionGenerator
 
     Private Shared Function AllocateWindowName(
         suggestedName As String,
+        suggestedNamespace As String,
         usedName As HashSet(Of String)) As String
 
         Dim name = suggestedName
         If usedName.Contains(name) Then
+            name = suggestedNamespace?.Replace(".", "_") & "_" & name
+        End If
+
+        If usedName.Contains(name) Then
+            Dim fullName = name
             Dim num = 1
             Dim nextName As String
             Do
                 num += 1
-                nextName = suggestedName & num
+                nextName = fullName & num
             Loop While usedName.Contains(nextName)
             name = nextName
         End If

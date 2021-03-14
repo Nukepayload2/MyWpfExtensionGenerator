@@ -30,6 +30,7 @@ Can't use generated members?
     <PackageTags>source generator,WPF,VB,My extension</PackageTags>
     <PackageReleaseNotes>Initial version</PackageReleaseNotes>
     <Copyright>Copyright 2021 Nukepayload2</Copyright>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
