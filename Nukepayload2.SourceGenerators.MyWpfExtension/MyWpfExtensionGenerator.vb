@@ -221,7 +221,7 @@ Public Class MyWpfExtensionGenerator
             Dim windowNamespace = GetAbsoluteNamespace(wnd.ContainingNamespace)
             Dim windowFullName = If(windowNamespace = Nothing,
                 windowName,
-                "Global." & windowNamespace & "." & windowName)
+                windowNamespace & "." & windowName)
 
             code.Append($"
             Private _{windowName} As {windowFullName}
