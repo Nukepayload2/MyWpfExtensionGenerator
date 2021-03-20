@@ -227,6 +227,9 @@ Public Class MyWpfExtensionGenerator
             
             Public ReadOnly Property {windowName} As {windowFullName}
                 Get
+                    Dim mainWnd = Global.System.Windows.Application.Current?.MainWindow
+                    If mainWnd?.GetType = GetType({windowFullName}) Then Return mainWnd
+
                     SyncLock _Lock{windowName}
                         If _{windowName} Is Nothing Then
                             _{windowName} = New {windowFullName}

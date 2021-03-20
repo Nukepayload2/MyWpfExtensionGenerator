@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Nukepayload2.SourceGenerators.MyWpfExtension</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Nukepayload2</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator</PackageProjectUrl>
@@ -28,7 +28,7 @@ Can't use generated members?
     <RepositoryUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>source generator,WPF,VB,My extension</PackageTags>
-    <PackageReleaseNotes>Fixed a bug of type name</PackageReleaseNotes>
+    <PackageReleaseNotes>Ensure My.Application.MainWindow is My.Windows.MainWindow</PackageReleaseNotes>
     <Copyright>Copyright 2021 Nukepayload2</Copyright>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
