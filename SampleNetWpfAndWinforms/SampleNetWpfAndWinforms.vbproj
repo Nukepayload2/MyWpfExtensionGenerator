@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <RootNamespace>SampleNet5WpfAndWinforms</RootNamespace>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>SampleNetWpfAndWinforms</RootNamespace>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
   </PropertyGroup>
 
   <ItemGroup>
+    <Import Include="System" />
     <Import Include="System.Windows" />
     <Import Include="System.Windows.Controls" />
     <Import Include="System.Windows.Data" />
@@ -24,5 +24,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Nukepayload2.SourceGenerators.MyWpfExtension\Nukepayload2.SourceGenerators.MyWpfExtension.vbproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>
-
+  
+  <!-- Workaround
+    https://github.com/dotnet/wpf/issues/6792
+    -->
+  <Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <FilteredAnalyzer Include="@(Analyzer->Distinct())" />
+      <Analyzer Remove="@(Analyzer)" />
+      <Analyzer Include="@(FilteredAnalyzer)" />
+    </ItemGroup>
+  </Target>
+  
 </Project>

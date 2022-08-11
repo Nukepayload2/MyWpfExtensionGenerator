@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<Import Include="System" />
     <Import Include="System.Windows" />
     <Import Include="System.Windows.Controls" />
     <Import Include="System.Windows.Data" />
