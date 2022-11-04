@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Nukepayload2.SourceGenerators.Incremental.MyWpfExtension</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.1.0</Version>
+    <Authors>Nukepayload2</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator</PackageProjectUrl>
+    <Description>
+      VB "WPF My extension" generator for .NET 6 or later.
+      Generates Visual Basic's My Namespace extension for Windows Presentation Foundation.
+      The generator writes the WPF specific part of My extension by default. For generating all members, please include Windows Forms (Edit project file, add &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt; to &lt;PropertyGroup&gt;), then reload the project.
+
+      Requirements:
+      - Visual Studio 2022 or later
+      - .NET SDK 6.0.100 (this is the first version that supports IIncrementalGenerator)
+
+      Generated members:
+      - My.Application
+      - My.Windows
+      - My.Computer (Windows Forms required)
+      - My.User (Windows Forms required)
+      - My.Log (Windows Forms required)
+      - My.Application.Info (Windows Forms required)
+
+      Can't use generated members?
+      - Edit project file and add &lt;IncludePackageReferencesDuringMarkupCompilation&gt;true&lt;/IncludePackageReferencesDuringMarkupCompilation&gt; to &lt;PropertyGroup&gt; .
+    </Description>
+    <RepositoryUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>source generator,incremental generator,WPF,VB,My extension</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <Copyright>Copyright 2022 Nukepayload2</Copyright>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn></NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Nukepayload2.SourceGenerators.MyWpfExtension\INamedTypeSymbolExtensions.vb" Link="INamedTypeSymbolExtensions.vb" />
+    <Compile Include="..\Nukepayload2.SourceGenerators.MyWpfExtension\MyWpfExtensionGenerator.Shared.vb" Link="MyWpfExtensionGenerator.Shared.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.1" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/vb" Visible="false" />
+  </ItemGroup>
+</Project>
