@@ -27,7 +27,7 @@ Public Class MyWpfExtensionGenerator
         context.RegisterSourceOutput(compilationAndClasses,
             Sub(sourceProductionContext, source)
                 Dim compilation = source.Left
-                Dim classes = source.Right.Where(Function(s) s IsNot Nothing).ToList()
+                Dim classes = From s In source.Right Where s IsNot Nothing
 
                 Dim windowTypeSymbol = compilation.GetTypeByMetadataName("System.Windows.Window")
                 If windowTypeSymbol Is Nothing Then Return
@@ -53,7 +53,7 @@ Public Class MyWpfExtensionGenerator
     ''' 2. Has a parameterless Public Sub New or no Sub New was defined.<br/>
     ''' 3. Partial classes are usually used. We should distinct classes by full name.
     ''' </remarks>
-    Private Shared Function GetWpfWindowClasses(classes As List(Of INamedTypeSymbol), windowTypeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
+    Private Shared Function GetWpfWindowClasses(classes As IEnumerable(Of INamedTypeSymbol), windowTypeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
         Return From cls In classes Where cls.DerivesFromOrImplementsAnyConstructionOf(windowTypeSymbol)
                Let subNews = cls.InstanceConstructors
                Where subNews.Length = 0 OrElse subNews.Any(
