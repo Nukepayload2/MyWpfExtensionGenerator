@@ -6,35 +6,41 @@ The generator writes the WPF specific part of My extension by default. For gener
 https://www.nuget.org/packages/Nukepayload2.SourceGenerators.MyWpfExtension/
 
 ## Requirements
+### Current version
+Visual Studio 17.8 or later
+
+### Version 1.x
 Visual Studio 16.9 or later
 
 ## Features
 - Generate My.Application
 - Generate My.Windows
-- Generate My.Computer (.NET 5+ Windows Forms required)
-- Generate My.User (.NET 5+ Windows Forms required)
-- Generate My.Log (.NET 5+ Windows Forms required)
-- Generate My.Application.Info (.NET 5+ Windows Forms required)
+- Generate My.Computer (Windows Forms required)
+- Generate My.User (Windows Forms required)
+- Generate My.Log (Windows Forms required)
+- Generate My.Application.Info (Windows Forms required)
 
 ## Project structure
+https://github.com/Nukepayload2/MyWpfExtensionGenerator
+
 ### Nukepayload2.SourceGenerators.MyWpfExtension
 The source generator project. Build this project before using the sample project.
-### SampleNet5WpfAndWinforms 
-Sample project of .NET 5 WPF and Windows Forms. Requires to reopen Visual Studio after building the source generator project.
-### SampleNetCore31Wpf
-Sample project of .NET 5 WPF and Windows Forms. Requires to reopen Visual Studio after building the source generator project.
+### SampleNetWpfAndWinforms 
+Sample project of WPF and Windows Forms. Requires to reopen Visual Studio after building the source generator project.
+### SampleNetWpfOnly
+Sample project of WPF. Requires to reopen Visual Studio after building the source generator project.
 
 ## Usage
 ### Package reference
 - Install Nukepayload2.SourceGenerators.MyWpfExtension
-- If you are using .NET 5 or earlier, edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` . Add `<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>` to `<PropertyGroup>` element.
+- Version 1.x only: If you are using .NET 5 or earlier, edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` . Add `<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>` to `<PropertyGroup>` element.
 
 ### Project reference
 - Add the source generator project to your solution.
 - Build the source generator project.
 - Select your WPF project, and add project reference to the source generator.
-- Edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` . Add `<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>` to `<PropertyGroup>` element.
+- Version 1.x only: Edit your project file. In the `<ProjectReference>` element, add ` OutputItemType="Analyzer" ReferenceOutputAssembly="False"` . Add `<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>` to `<PropertyGroup>` element.
 - Reload the solution.
 
 ## Known issues
-- WPF windows with the same name and different namespace is temporarily unsupported.
+- Version 1.x only: WPF windows with the same name and different namespace is unsupported.

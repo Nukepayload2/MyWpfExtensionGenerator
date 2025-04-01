@@ -41,5 +41,6 @@ Generated members:
 
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/vb" Visible="false" />
+    <None Include="..\README.md" Link="readme.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 </Project>
