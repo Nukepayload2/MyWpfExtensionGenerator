@@ -33,6 +33,7 @@ Generated members:
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn></NoWarn>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
