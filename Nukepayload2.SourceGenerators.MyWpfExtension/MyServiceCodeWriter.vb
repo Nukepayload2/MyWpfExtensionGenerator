@@ -1,92 +1,11 @@
-﻿Imports Microsoft.CodeAnalysis
-Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Option Explicit On
+Option Infer On
+Option Strict On
+
 Imports System.Text
+Imports Microsoft.CodeAnalysis
 
-Partial Public Class MyWpfExtensionGenerator
-
-    Private Const SourceHintName = "MyWpfExtension"
-
-    Private Shared Function GenerateCode(allClasses As IEnumerable(Of ClassStatementSyntax), compilation As Compilation,
-                                         Optional cancellationToken As Threading.CancellationToken = Nothing) As StringBuilder
-        Dim windowTypeSymbol = compilation.GetTypeByMetadataName("System.Windows.Window")
-        If windowTypeSymbol Is Nothing Then
-            ' WPF was not referenced
-            Return Nothing
-        End If
-
-        Dim wpfWindows = GetWpfWindowClasses(allClasses, compilation, windowTypeSymbol, cancellationToken)
-
-        ' Check if we can use Microsoft.VisualBasic.Forms
-        Dim hasVbWindowsForms =
-            Aggregate asmRef In compilation.ReferencedAssemblyNames
-            Where asmRef.Name = "Microsoft.VisualBasic.Forms"
-            Into Any
-
-        ' Generate code
-        Dim code As New StringBuilder
-        AppendNamespaceMy(code)
-        AppendMyWpfExtension(code, wpfWindows, hasVbWindowsForms, cancellationToken)
-        If hasVbWindowsForms Then
-            AppendThreadSafeObjectProvider(code)
-        End If
-        AppendEndNamespaceMy(code)
-
-        If hasVbWindowsForms Then
-            AppendAppInfo(code)
-        End If
-
-        Return code
-    End Function
-
-    ''' <summary>
-    ''' Finds all WPF window classes.
-    ''' </summary>
-    ''' <remarks>
-    ''' Classification of WPF window classes:<br/>
-    ''' 1. Inherits System.Windows.Window directly or indirectly.<br/>
-    ''' 2. Has a parameterless Public Sub New or no Sub New was defined.<br/>
-    ''' 3. Partial classes are usually used. We should distinct classes.
-    ''' </remarks>
-    ''' <param name="receiver"></param>
-    ''' <param name="compilation"></param>
-    ''' <param name="windowTypeSymbol"></param>
-    ''' <returns></returns>
-    Private Shared Function GetWpfWindowClasses(classes As IEnumerable(Of ClassStatementSyntax),
-                                                compilation As Compilation,
-                                                windowTypeSymbol As INamedTypeSymbol,
-                                                cancellationToken As Threading.CancellationToken) As IEnumerable(Of INamedTypeSymbol)
-        Return From cls In classes
-               Let classSyntaxTree = cls.SyntaxTree,
-                   model = compilation.GetSemanticModel(classSyntaxTree),
-                   clsSymbol = TryCast(model.GetDeclaredSymbol(cls, cancellationToken), INamedTypeSymbol)
-               Where clsSymbol?.DerivesFromOrImplementsAnyConstructionOf(windowTypeSymbol)
-               Let subNews = clsSymbol.InstanceConstructors
-               Where subNews.Length = 0 OrElse (
-                   Aggregate subNew In subNews
-                   Where subNew.Parameters.Length = 0 AndAlso
-                         subNew.DeclaredAccessibility = Accessibility.Public
-                   Into Any)
-               Group clsSymbol By Name = clsSymbol.ContainingNamespace?.ToDisplayString & "." & clsSymbol.Name Into PartialClasses = Group
-               Select PartialClasses.First
-    End Function
-
-    Private Shared Sub AppendMyWpfExtension(code As StringBuilder,
-                                            wpfWindows As IEnumerable(Of INamedTypeSymbol),
-                                            hasVbWindowsForms As Boolean,
-                                            cancellationToken As Threading.CancellationToken)
-        AppendModuleMyWpfExtension(code)
-        AppendApplicationProperty(code)
-
-        If hasVbWindowsForms Then
-            AppendComputerProperty(code)
-            AppendUserProperty(code)
-            AppendLogProperty(code)
-        End If
-
-        AppendWindowsProperty(code)
-        AppendMyWindowsClass(code, wpfWindows, cancellationToken)
-        AppendEndModuleMyWpfExtension(code)
-    End Sub
+Class MyServiceCodeWriter
 
     Private Shared Sub AppendNamespaceMy(code As StringBuilder)
         code.AppendLine("Namespace My")
@@ -164,8 +83,7 @@ Partial Public Class MyWpfExtensionGenerator
     End Sub
 
     Private Shared Sub AppendMyWindowsClass(code As StringBuilder,
-                                            windowSymbols As IEnumerable(Of INamedTypeSymbol),
-                                            cancellationToken As Threading.CancellationToken)
+                                            windowSymbols As IEnumerable(Of INamedTypeSymbol))
         ' I've modified the original implementation. The original design is:
         ' 1. Every threads owns a collection of windows.
         ' 2. Use `Property Get` to get or create instances.
@@ -187,8 +105,6 @@ Partial Public Class MyWpfExtensionGenerator
         Friend NotInheritable Class MyWindows")
         Dim usedWindowNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         For Each wnd In windowSymbols
-            cancellationToken.ThrowIfCancellationRequested()
-
             Dim windowName = AllocateWindowName(wnd.Name, wnd.ContainingNamespace?.ToDisplayString, usedWindowNames)
             Dim windowNamespace = GetAbsoluteNamespace(wnd.ContainingNamespace)
             Dim windowFullName = If(windowNamespace = Nothing,
@@ -295,6 +211,36 @@ Partial Class Application
         End Get
     End Property
 End Class")
+    End Sub
+
+    Private Shared Sub AppendMyWpfExtension(code As StringBuilder,
+                                            wpfWindows As IEnumerable(Of INamedTypeSymbol),
+                                            hasVbWindowsForms As Boolean)
+        AppendModuleMyWpfExtension(code)
+        AppendApplicationProperty(code)
+
+        If hasVbWindowsForms Then
+            AppendComputerProperty(code)
+            AppendUserProperty(code)
+            AppendLogProperty(code)
+        End If
+
+        AppendWindowsProperty(code)
+        AppendMyWindowsClass(code, wpfWindows)
+        AppendEndModuleMyWpfExtension(code)
+    End Sub
+
+    Public Shared Sub GenerateWpfExtensionCode(wpfWindows As IEnumerable(Of INamedTypeSymbol), hasVbWindowsForms As Boolean, code As StringBuilder)
+        AppendNamespaceMy(code)
+        AppendMyWpfExtension(code, wpfWindows, hasVbWindowsForms)
+        If hasVbWindowsForms Then
+            AppendThreadSafeObjectProvider(code)
+        End If
+        AppendEndNamespaceMy(code)
+
+        If hasVbWindowsForms Then
+            AppendAppInfo(code)
+        End If
     End Sub
 
 End Class

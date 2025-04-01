@@ -3,39 +3,40 @@
   <PropertyGroup>
     <RootNamespace>Nukepayload2.SourceGenerators.MyWpfExtension</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.3</Version>
+    <Version>2.0.0</Version>
     <Authors>Nukepayload2</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator</PackageProjectUrl>
-    <Description>VB "WPF My extension" generator for .NET Core 3.1 and .NET 5 or later.
+    <Description>VB "WPF My extension" generator.
 Generates Visual Basic's My Namespace extension for Windows Presentation Foundation.
-The generator writes the WPF specific part of My extension by default. For generating all members, please upgrade to .NET 5 or later, and use Windows Forms (Edit project file, add &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt; to &lt;PropertyGroup&gt;), then reload the project.
+The generator writes the WPF specific part of My extension by default. 
+For generating all members, please enable Windows Forms (Edit project file, add &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt; to &lt;PropertyGroup&gt;), then reload the project.
 
 Requirements:
-- Visual Studio 16.9 or later
-- .NET SDK 5.0.200 (this is the first version that supports Visual Basic 16.9)
+- Visual Studio 17.8 or later
+- .NET SDK 8.0 or later
+- For previous versions of Visual Studio and .NET SDK, use package version 1.x instead.
 
 Generated members:
 - My.Application
 - My.Windows
-- My.Computer (.NET 5+ Windows Forms required)
-- My.User (.NET 5+ Windows Forms required)
-- My.Log (.NET 5+ Windows Forms required)
-- My.Application.Info (.NET 5+ Windows Forms required)
-
-Can't use generated members?
-- Edit project file and add &lt;IncludePackageReferencesDuringMarkupCompilation&gt;true&lt;/IncludePackageReferencesDuringMarkupCompilation&gt; to &lt;PropertyGroup&gt; .</Description>
+- My.Computer (Windows Forms required)
+- My.User (Windows Forms required)
+- My.Log (Windows Forms required)
+- My.Application.Info (Windows Forms required)
+</Description>
     <RepositoryUrl>https://github.com/Nukepayload2/MyWpfExtensionGenerator.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>source generator,WPF,VB,My extension</PackageTags>
-    <PackageReleaseNotes>Ensure My.Application.MainWindow is My.Windows.MainWindow</PackageReleaseNotes>
+    <PackageTags>source generator WPF VB My extension</PackageTags>
+    <PackageReleaseNotes>Migrate to incremental generator</PackageReleaseNotes>
     <Copyright>Copyright 2021 Nukepayload2</Copyright>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn></NoWarn>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="3.9.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.8.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
